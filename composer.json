@@ -1,0 +1,42 @@
+{
+    "name": "with-Zoey/trengo-api-php",
+    "description": "Trengo API client library for PHP.",
+    "keywords": [
+      "trengo",
+      "php",
+      "sdk",
+      "api"
+    ],
+    "license": "MIT",
+    "homepage": "https://github.com/with-Zoey/wefact-api-php",
+    "authors": [
+      {
+        "name": "Andre Snijder",
+        "email": "dev@withzoey.com"
+      }
+    ],
+    "require": {
+      "php": "^7.2 || ^7.3 || ^8.0",
+      "guzzlehttp/guzzle": "^6.3 || ^7.0",
+      "ext-json": "*"
+    },
+    "require-dev": {
+      "phpunit/phpunit": "^5.7 || ^6.5 || ^7.1 || ^9"
+    },
+    "config": {
+      "sort-packages": true
+    },
+    "autoload": {
+      "psr-4": {
+        "WithZoey\\Trengo\\": "src/"
+      }
+    },
+    "autoload-dev": {
+      "psr-4": {
+        "Tests\\": "tests"
+      }
+    },
+    "scripts": {
+      "test": "./vendor/bin/phpunit tests"
+    }
+  }
