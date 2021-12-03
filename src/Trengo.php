@@ -3,13 +3,11 @@
 namespace WithZoey\Trengo;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 use GuzzleHttp\ClientInterface;
 use WithZoey\Trengo\Resources\Ticket;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Exception\GuzzleException;
-use WithZoey\Trengo\Exceptions\ApiException;
 use WithZoey\Trengo\Exceptions\MissingApiKeyException;
 
 class Trengo
@@ -26,7 +24,7 @@ class Trengo
     /** @var string */
     private $apiKey;
 
-    
+
     public $ticket;
 
     /**
@@ -45,7 +43,7 @@ class Trengo
         $this->addUserAgentString('PHP/' . phpversion());
 
         $this->tickets = new Ticket($this);
-       
+
     }
 
     /**
@@ -92,7 +90,7 @@ class Trengo
             'headers' => $headers
         ];
         if (count($body) > 0) {
-            $params['body'] =  $body; 
+            $params['body'] = $body;
         }
 
         $url = $this->getApiUrl() . $url;

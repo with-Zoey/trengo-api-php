@@ -22,49 +22,23 @@ class Ticket extends Resource
      * @param array $parameters
      * @return mixed
      * @throws ApiException
-     * @throws GuzzleException
      * @throws MissingApiKeyException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function list(array $parameters = [])
     {
         $url = $this->getResourceName();
-        if (count($parameters) > 0) {
-            $url .= "?";
-
-            $array_params = ['users', 'channels', 'labels'];
-            foreach($parameters as $label=>$value) {
-
-                //skip the params which are arrays
-                if (in_array($label, $array_params)) {
-                    continue;
-                }
-                $url .= "{$label}={$value}&";
-            }
-
-            foreach($parameters as $label=>$value) {
-
-                //build the params which are arrays
-                if (!in_array($label, $array_params)) {
-                    continue;
-                }
-                foreach ($value as $array_param) {
-                    $url .= "{$label}[]={$array_param}&";
-                }
-                
-            }
-            $url = substr($url, 0, -1);
-        }
-
+        $url .= $this->setParameters($parameters, ['users', 'channels', 'labels']);
         return $this->client->doHttpCall('GET', $url);
-    }    
-    
+    }
+
     /**
      * @param int $ticket_id
      * @param int $message_id
      * @return mixed
      * @throws ApiException
-     * @throws GuzzleException
      * @throws MissingApiKeyException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function fetchMessage(int $ticket_id, int $message_id)
     {
@@ -76,10 +50,10 @@ class Ticket extends Resource
      * @param int $channel_id
      * @param int $contact_id
      * @param string $subject
-     * @return mixed|void
+     * @return mixed
      * @throws ApiException
-     * @throws GuzzleException
      * @throws MissingApiKeyException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function create(int $channel_id, int $contact_id, string $subject = "")
     {
@@ -105,7 +79,6 @@ class Ticket extends Resource
         );
     }
 
-    
 
     /**
      * @param array $data

@@ -22,29 +22,16 @@ class Sms extends Resource
      * @param array $parameters
      * @return mixed
      * @throws ApiException
-     * @throws GuzzleException
      * @throws MissingApiKeyException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function list(array $parameters = [])
     {
         $url = $this->getResourceName();
-        if (count($parameters) > 0) {
-            $url .= "?";
-
-            $valid_params = ['page'];
-            foreach($parameters as $label=>$value) {
-
-                //skip the params which are not available
-                if (in_array($label, $valid_params)) {
-                    continue;
-                }
-                $url .= "{$label}={$value}";
-            }
-        }
-
+        $url .= $this->setParameters($parameters, ['page']);
         return $this->client->doHttpCall('GET', $url);
-    }    
-    
+    }
+
 
     /**
      * @param array $parameters

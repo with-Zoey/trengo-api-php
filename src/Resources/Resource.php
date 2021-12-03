@@ -40,4 +40,37 @@ abstract class Resource
      * @return string
      */
     abstract public function getResourceName(): string;
+
+    /**
+     * @param array $parameters
+     * @param array $validParams
+     * @return string
+     */
+    public function setParameters(array $parameters, array $validParams): string
+    {
+        if (count($parameters) > 0) {
+            $urlParams = "?";
+            $lastParameterKey = key(array_slice($parameters, -1, 1, true));
+
+            foreach ($parameters as $label => $value) {
+                //skip the params which are not available
+                if (!in_array($label, $validParams)) {
+                    continue;
+                }
+
+                if (is_array($value)) {
+                    $lastArrayKey = key(array_slice($value, -1, 1, true));
+                    foreach ($value as $arrayParam) {
+                        $urlParams .= "{$label}[]={$arrayParam}";
+                        $urlParams .= $lastArrayKey !== $label ? '&' : '';
+                    }
+                } else {
+                    $urlParams .= "{$label}={$value}";
+                    $urlParams .= $lastParameterKey !== $label ? '&' : '';
+                }
+            }
+            return $urlParams;
+        }
+        return '';
+    }
 }
