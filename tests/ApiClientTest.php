@@ -33,17 +33,17 @@ class ApiClientTest extends TestCase
     public function testDoHttpCall()
     {
         $this->trengo->setApiKey('test_api_key');
-        $response = new Response(200, [], '');
+        $response = new Response(200, [], '{"key":"value"}');
 
         $this->guzzleClient
             ->expects($this->once())
-            ->method('send')
+            ->method('request')
             ->willReturn($response);
 
         $response = $this->trengo->doHttpCall('GET', 'url');
 
         $this->assertEquals(
-            ['var' => 'value'],
+            ['key' => 'value'],
             $response
         );
     }

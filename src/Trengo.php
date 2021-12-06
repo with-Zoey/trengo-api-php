@@ -95,7 +95,7 @@ class Trengo
 
         $url = $this->getApiUrl() . $url;
 
-        $response = $this->client->request($method, $url, $params);
+        $response = $this->httpClient->request($method, $url, $params);
         return $this->parseResponse($response);
     }
 
