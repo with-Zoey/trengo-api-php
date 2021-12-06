@@ -19,11 +19,12 @@ class Trengo
 
     /** @var Client|ClientInterface|null */
     protected $httpClient;
+
     /** @var array */
     protected $userAgentComponent = [];
+
     /** @var string */
     private $apiKey;
-
 
     public $ticket;
 
