@@ -5,9 +5,9 @@ namespace WithZoey\Trengo\Resources;
 use WithZoey\Trengo\Exceptions\ApiException;
 use WithZoey\Trengo\Exceptions\MissingApiKeyException;
 
-class ContactGroup extends Resource
+class Contact extends Resource
 {
-    public const CONTROLLER_NAME = 'contact_groups';
+    public const CONTROLLER_NAME = 'contacts';
 
     /**
      * @return string
@@ -27,7 +27,7 @@ class ContactGroup extends Resource
     public function list(array $parameters = [])
     {
         $url = $this->getResourceName();
-        $url .= $this->setParameters($parameters, ['page']);
+        $url .= $this->setParameters($parameters, ['page', 'term']);
         return $this->client->doHttpCall('GET', $url);
     }
 
@@ -39,45 +39,47 @@ class ContactGroup extends Resource
      * @throws MissingApiKeyException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function get(int $id, array $parameters = [])
+    public function view(int $id, array $parameters = [])
     {
         $url = $this->getResourceName() . "{$id}";
-        $url .= $this->setParameters($parameters, ['page']);
+        $url .= $this->setParameters($parameters, ['include']);
         return $this->client->doHttpCall('GET', $url);
     }
 
     /**
-     * @param string $name
+     * @param int $channel_id
+     * @param string $identifier
+     * @param int|null $corresponding_channel_id
      * @return mixed
      * @throws ApiException
      * @throws MissingApiKeyException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function create(string $name)
+    public function create(int $channel_id, string $identifier = '', int $corresponding_channel_id = null)
     {
-        $url = $this->getResourceName();
+        $url = "/channels/{$channel_id}/" . $this->getResourceName();
         $body = [
-            "name" => $name,
+            "identifier" => $identifier,
+            "channel_id" => $corresponding_channel_id,
         ];
         return $this->client->doHttpCall('POST', $url, $body);
     }
 
     /**
-     * @param int $quick_reply_id
-     * @param string $title
-     * @param string $message
-     * @param string $type
-     * @param array $channel_ids
+     * @param int $id
+     * @param string $name
+     * @param array $contact_group_ids
      * @return mixed
      * @throws ApiException
      * @throws MissingApiKeyException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function update(int $id, string $name)
+    public function update(int $id, string $name = '', array $contact_group_ids = [])
     {
         $url = $this->getResourceName() . "{$id}";
         $body = [
             "name" => $name,
+            "contact_group_ids" => $contact_group_ids,
         ];
         return $this->client->doHttpCall('PUT', $url, $body);
     }
