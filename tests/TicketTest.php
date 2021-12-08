@@ -141,7 +141,7 @@ class TicketTest extends TestCase
         $response = $this->ticket->list();
 
         $this->assertEquals(
-            json_decode($responseBody, true),
+            json_decode($responseBody),
             $response
         );
     }
@@ -237,7 +237,7 @@ class TicketTest extends TestCase
         $response = $this->ticket->fetchMessage(245404208, 1074356288);
 
         $this->assertEquals(
-            json_decode($responseBody, true),
+            json_decode($responseBody),
             $response
         );
     }
@@ -356,7 +356,7 @@ class TicketTest extends TestCase
         $response = $this->ticket->create(650578, 163968078);
 
         $this->assertEquals(
-            json_decode($responseBody, true),
+            json_decode($responseBody),
             $response
         );
     }
@@ -370,5 +370,251 @@ class TicketTest extends TestCase
     {
         $this->expectErrorMessage('Argument 1 passed to WithZoey\Trengo\Resources\Ticket::create() must be of the type int, string given, called in ');
         $this->ticket->create('', '');
+    }
+
+    /**
+     * @throws ApiException
+     * @throws GuzzleException
+     * @throws MissingApiKeyException
+     */
+    public function testDeleteTicket()
+    {
+        $response = new Response(200, [], '');
+
+        $this->guzzleClient
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn($response);
+
+        $response = $this->ticket->delete(246171262);
+
+        $this->assertEquals(
+            null,
+            $response
+        );
+    }
+
+    /**
+     * @throws ApiException
+     * @throws GuzzleException
+     * @throws MissingApiKeyException
+     */
+    public function testDeleteTicketFail()
+    {
+        $this->expectErrorMessage('Argument 1 passed to WithZoey\Trengo\Resources\Ticket::delete() must be of the type int, string given, called in ');
+        $this->ticket->delete('test');
+    }
+
+    /**
+     * @throws ApiException
+     * @throws GuzzleException
+     * @throws MissingApiKeyException
+     */
+    public function testSendTicketMessage()
+    {
+        $responseBody = '{
+          "message": {
+            "ticket_id": 246029042,
+            "contact_id": 164314857,
+            "agency_id": 1249,
+            "user_id": 3610,
+            "message": "test",
+            "type": "OUTBOUND",
+            "token": "bc73F0c1we",
+            "body_type": "TEXT",
+            "file_name": null,
+            "read": true,
+            "is_auto_reply": null,
+            "updated_at": "2021-12-08 13:23:26",
+            "created_at": "2021-12-08 13:23:26",
+            "id": 1081194822,
+            "message_class": "alert-success pull-right",
+            "email_message_class": "email_outbound",
+            "created_at_time": 1638966206,
+            "created_at_time_day": 1638918000,
+            "ticket": {
+              "id": 246029042,
+              "agency_id": 1249,
+              "channel_id": 650788,
+              "user_id": 3610,
+              "team_id": null,
+              "contact_id": 164314857,
+              "assigned_by": 3610,
+              "closed_by": null,
+              "latest_message": "2021-12-07 10:36:09",
+              "guid": "LrWwhrABkUdaKDPb8weguDdrKMvOIqYCVVYoa67x3pZpjq2zhE",
+              "telegram_chat_id": null,
+              "status": "ASSIGNED",
+              "subject": null,
+              "closed_at": null,
+              "assigned_at": "2021-12-07 10:36:19",
+              "contact_cc": null,
+              "custom_data": null,
+              "created_at": "2021-12-07T09:36:09.000000Z",
+              "updated_at": "2021-12-08T12:23:26.000000Z",
+              "deleted_at": null
+            },
+            "email_message": null,
+            "attachments": [],
+            "contact": {
+              "id": 164314857,
+              "agency_id": 1249,
+              "title": "MR",
+              "first_name": null,
+              "last_name": null,
+              "full_name": "Sarra",
+              "street_name": null,
+              "house_no": null,
+              "zip_code": null,
+              "city": null,
+              "whatsapp_phone_id": null,
+              "phone": "+31642297149",
+              "color": "#00bcd4",
+              "image_path": null,
+              "email": null,
+              "is_synced": 1,
+              "custom_field_data": null,
+              "created_at": "2021-12-07T09:36:09.000000Z",
+              "updated_at": "2021-12-07T09:36:51.000000Z",
+              "deleted_at": null,
+              "deleted_by": null,
+              "name": "Sarra",
+              "avatar": "https://app.trengo.com/img/defaultpic.png",
+              "profile_image": null,
+              "formatted_custom_field_data": {
+                "Achternaam": null,
+                "Klantnummer": null,
+                "Voorkeuren": null,
+                "Voornaam": null
+              },
+              "formatted_phone": "+31 6 42297149",
+              "abbr": "S",
+              "is_phone": true,
+              "identifier": "+31 6 42297149",
+              "is_private": false,
+              "users": []
+            },
+            "agent": {
+              "id": 3610,
+              "agency_id": 1249,
+              "parent_agency_id": null,
+              "is_primary": 1,
+              "title": "MR",
+              "first_name": "Rajneesh",
+              "last_name": "Badal",
+              "email": "rajneesh@travelwithzoey.com",
+              "is_demo_user": 0,
+              "is_online": 0,
+              "user_status": "ONLINE",
+              "authorization": "OWNER",
+              "screen_lock_enabled": 0,
+              "status": "ACTIVE",
+              "activation_token": "0xl5C1ve83LQRf3coSdHWRKSMTUipSwRPTPRBLwDLjsiHlhB4JaNFseiT1pzZ8wOOdUJf5eQGHyQDBmkBFC2DrTlTKJNw0aldNqYgk08tnZvMCE6qmvx6DEdBHk92",
+              "requires_password_update": 0,
+              "locale_code": "nl-NL",
+              "color": "#009688",
+              "timezone": "Europe/Amsterdam",
+              "profile_image": null,
+              "voip_status": "ONLINE",
+              "voip_device": "WEB",
+              "phone": null,
+              "created_at": "2017-07-16T07:34:35.000000Z",
+              "updated_at": "2021-12-08T09:18:03.000000Z",
+              "last_activity_at": "2021-12-08 10:10:33",
+              "deleted_at": null,
+              "rate_limit": 1200,
+              "name": "Rajneesh Badal",
+              "abbr": "R",
+              "full_name": "Rajneesh Badal",
+              "text": "Rajneesh Badal"
+            }
+          }
+        }';
+        $response = new Response(200, [], $responseBody);
+
+        $this->guzzleClient
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn($response);
+
+        $response = $this->ticket->sendTicketMessage(246171262, 'test');
+
+        $this->assertEquals(
+            json_decode($responseBody),
+            $response
+        );
+    }
+
+    //TODO trengo return 500 error
+//    public function testSendTicketMediaMessage()
+//    {
+//        $responseBody = '';
+//        $response = new Response(200, [], '');
+//
+//        $this->guzzleClient
+//            ->expects($this->once())
+//            ->method('request')
+//            ->willReturn($response);
+//
+//        $file = 'data:image/png;name=1615976013.png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
+//        $response = $this->ticket->sendTicketMediaMessage(246171262, $file);
+//
+//        $this->assertEquals(
+//            json_decode($responseBody),
+//            $response
+//        );
+//    }
+
+    //TODO trengo return 500 error
+//    public function testUploadFile()
+//    {
+//        $responseBody = '';
+//        $response = new Response(200, [], '');
+//
+//        $this->guzzleClient
+//            ->expects($this->once())
+//            ->method('request')
+//            ->willReturn($response);
+//
+//        $file = 'data:image/png;name=1615976013.png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
+//        $response = $this->ticket->uploadFile($file);
+//
+//        $this->assertEquals(
+//            json_decode($responseBody),
+//            $response
+//        );
+//    }
+
+    /**
+     * @throws ApiException
+     * @throws GuzzleException
+     * @throws MissingApiKeyException
+     */
+    public function testDeleteMessageTicket()
+    {
+        $response = new Response(200, [], '');
+
+        $this->guzzleClient
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn($response);
+
+        $response = $this->ticket->deleteMessage(246171262, 1081194822);
+
+        $this->assertEquals(
+            null,
+            $response
+        );
+    }
+
+    /**
+     * @throws ApiException
+     * @throws GuzzleException
+     * @throws MissingApiKeyException
+     */
+    public function testDeleteMessageTicketFail()
+    {
+        $this->expectErrorMessage('Argument 1 passed to WithZoey\Trengo\Resources\Ticket::delete() must be of the type int, string given, called in ');
+        $this->ticket->delete('test');
     }
 }

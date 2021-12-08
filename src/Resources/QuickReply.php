@@ -66,7 +66,7 @@ class QuickReply extends Resource
      */
     public function update(int $quick_reply_id, string $title, string $message, string $type, array $channel_ids = [])
     {
-        $url = $this->getResourceName() . "{$quick_reply_id}";
+        $url = $this->getResourceName() . "/{$quick_reply_id}";
         $body = [
             "title" => $title,
             "message" => $message,
@@ -85,7 +85,7 @@ class QuickReply extends Resource
      */
     public function delete(int $quick_reply_id)
     {
-        $url = $this->getResourceName() . "{$quick_reply_id}";
+        $url = $this->getResourceName() . "/{$quick_reply_id}";
         return $this->client->doHttpCall('DELETE', $url);
     }
 }

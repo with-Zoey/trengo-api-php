@@ -19,9 +19,7 @@ class ContactTest extends TestCase
     /** @var trengo */
     private $trengo;
 
-    /**
-     * @var Contact
-     */
+    /** @var Contact */
     private $contact;
 
     protected function setUp(): void
@@ -121,7 +119,7 @@ class ContactTest extends TestCase
         $response = $this->contact->list();
 
         $this->assertEquals(
-            json_decode($responseBody, true),
+            json_decode($responseBody),
             $response
         );
     }
@@ -197,7 +195,7 @@ class ContactTest extends TestCase
         $response = $this->contact->view(163968078);
 
         $this->assertEquals(
-            json_decode($responseBody, true),
+            json_decode($responseBody),
             $response
         );
     }
@@ -207,7 +205,7 @@ class ContactTest extends TestCase
      * @throws GuzzleException
      * @throws MissingApiKeyException
      */
-    public function testGetContactFail()
+    public function testViewContactFail()
     {
         $this->expectErrorMessage('Argument 1 passed to WithZoey\Trengo\Resources\Contact::view() must be of the type int, string given, called in ');
         $this->contact->view('test');
@@ -218,7 +216,7 @@ class ContactTest extends TestCase
      * @throws GuzzleException
      * @throws MissingApiKeyException
      */
-    public function testCreateContact()
+    public function testFindOrCreateContact()
     {
         $responseBody = '{
           "id": 164295777,
@@ -251,10 +249,10 @@ class ContactTest extends TestCase
             ->method('request')
             ->willReturn($response);
 
-        $response = $this->contact->create(650578, '09912234567');
+        $response = $this->contact->findOrCreate(650578, '09912234567');
 
         $this->assertEquals(
-            json_decode($responseBody, true),
+            json_decode($responseBody),
             $response
         );
     }
@@ -266,8 +264,8 @@ class ContactTest extends TestCase
      */
     public function testCreateContactFail()
     {
-        $this->expectErrorMessage('Too few arguments to function WithZoey\Trengo\Resources\Contact::create(), 0 passed in ');
-        $this->contact->create();
+        $this->expectErrorMessage('Too few arguments to function WithZoey\Trengo\Resources\Contact::findOrCreate(), 0 passed in ');
+        $this->contact->findOrCreate();
     }
 
     /**
@@ -341,7 +339,7 @@ class ContactTest extends TestCase
         $response = $this->contact->update(164295777, 'test');
 
         $this->assertEquals(
-            json_decode($responseBody, true),
+            json_decode($responseBody),
             $response
         );
     }

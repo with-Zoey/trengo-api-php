@@ -41,7 +41,7 @@ class Contact extends Resource
      */
     public function view(int $id, array $parameters = [])
     {
-        $url = $this->getResourceName() . "{$id}";
+        $url = $this->getResourceName() . "/{$id}";
         $url .= $this->setParameters($parameters, ['include']);
         return $this->client->doHttpCall('GET', $url);
     }
@@ -55,9 +55,9 @@ class Contact extends Resource
      * @throws MissingApiKeyException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function create(int $channel_id, string $identifier = '', int $corresponding_channel_id = null)
+    public function findOrCreate(int $channel_id, string $identifier = '', int $corresponding_channel_id = null)
     {
-        $url = "/channels/{$channel_id}/" . $this->getResourceName();
+        $url = "channels/{$channel_id}/" . $this->getResourceName();
         $body = [
             "identifier" => $identifier,
             "channel_id" => $corresponding_channel_id,
@@ -76,7 +76,7 @@ class Contact extends Resource
      */
     public function update(int $id, string $name = '', array $contact_group_ids = [])
     {
-        $url = $this->getResourceName() . "{$id}";
+        $url = $this->getResourceName() . "/{$id}";
         $body = [
             "name" => $name,
             "contact_group_ids" => $contact_group_ids,
@@ -93,7 +93,7 @@ class Contact extends Resource
      */
     public function delete(int $id)
     {
-        $url = $this->getResourceName() . "{$id}";
+        $url = $this->getResourceName() . "/{$id}";
         return $this->client->doHttpCall('DELETE', $url);
     }
 }

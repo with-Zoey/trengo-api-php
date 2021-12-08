@@ -15,8 +15,7 @@ abstract class Resource
     protected $client;
 
     /**
-     * Resource constructor.
-     * @param WeFact $client
+     * @param Trengo $client
      */
     public function __construct(Trengo $client)
     {
@@ -60,9 +59,9 @@ abstract class Resource
 
                 if (is_array($value)) {
                     $lastArrayKey = key(array_slice($value, -1, 1, true));
-                    foreach ($value as $arrayParam) {
+                    foreach ($value as $key => $arrayParam) {
                         $urlParams .= "{$label}[]={$arrayParam}";
-                        $urlParams .= $lastArrayKey !== $label ? '&' : '';
+                        $urlParams .= $lastArrayKey !== $key ? '&' : '';
                     }
                 } else {
                     $urlParams .= "{$label}={$value}";
