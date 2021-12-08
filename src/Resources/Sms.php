@@ -2,7 +2,6 @@
 
 namespace WithZoey\Trengo\Resources;
 
-use WithZoey\Trengo\Exceptions\ActionNotAvailableException;
 use WithZoey\Trengo\Exceptions\ApiException;
 use WithZoey\Trengo\Exceptions\MissingApiKeyException;
 
@@ -32,52 +31,35 @@ class Sms extends Resource
         return $this->client->doHttpCall('GET', $url);
     }
 
-
     /**
-     * @param array $parameters
-     * @return mixed|void
-     * @throws ActionNotAvailableException
+     * @param int $channel_id
+     * @param string $to
+     * @param string $message
+     * @return mixed
+     * @throws ApiException
+     * @throws MissingApiKeyException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function show(array $parameters = [])
+    public function send(int $channel_id, string $to, string $message = '')
     {
-        throw new ActionNotAvailableException(
-            sprintf('%s is not available for this controller.', __METHOD__)
-        );
+        $url = $this->getResourceName();
+        $body = [
+            "channel_id" => $channel_id,
+            "message" => $message,
+            "to" => $to
+        ];
+        return $this->client->doHttpCall('POST', $url, $body);
     }
 
     /**
-     * @param array $data
-     * @return mixed|void
-     * @throws ActionNotAvailableException
+     * @return mixed
+     * @throws ApiException
+     * @throws MissingApiKeyException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function create(array $data)
+    public function fetchBalance()
     {
-        throw new ActionNotAvailableException(
-            sprintf('%s is not available for this controller.', __METHOD__)
-        );
-    }
-
-    /**
-     * @param array $data
-     * @return mixed|void
-     * @throws ActionNotAvailableException
-     */
-    public function edit(array $data)
-    {
-        throw new ActionNotAvailableException(
-            sprintf('%s is not available for this controller.', __METHOD__)
-        );
-    }
-
-    /**
-     * @param array $parameters
-     * @return mixed|void
-     * @throws ActionNotAvailableException
-     */
-    public function delete(array $parameters)
-    {
-        throw new ActionNotAvailableException(
-            sprintf('%s is not available for this controller.', __METHOD__)
-        );
+        $url = '/wallet/balance';
+        return $this->client->doHttpCall('GET', $url);
     }
 }

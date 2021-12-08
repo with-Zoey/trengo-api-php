@@ -101,7 +101,7 @@ class QuickReplyTest extends TestCase
         $response = $this->quickReply->list();
 
         $this->assertEquals(
-            json_decode($responseBody, true),
+            json_decode($responseBody),
             $response
         );
     }
@@ -129,7 +129,7 @@ class QuickReplyTest extends TestCase
         $response = $this->quickReply->create('title', 'message', 'SMS');
 
         $this->assertEquals(
-            json_decode($responseBody, true),
+            json_decode($responseBody),
             $response
         );
     }

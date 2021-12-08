@@ -86,7 +86,47 @@ class SmsTest extends TestCase
         $response = $this->sms->list();
 
         $this->assertEquals(
-            json_decode($responseBody, true),
+            json_decode($responseBody),
+            $response
+        );
+    }
+
+    //TODO trengo return 500 error
+//    public function testSendSms()
+//    {
+//        $responseBody = '';
+//        $response = new Response(200, [], $responseBody);
+//
+//        $this->guzzleClient
+//            ->expects($this->once())
+//            ->method('request')
+//            ->willReturn($response);
+//
+//        $response = $this->sms->send(650578, '+31612345678', 'Hello World');
+//
+//        $this->assertEquals(
+//            json_decode($responseBody),
+//            $response
+//        );
+//    }
+
+    public function testSendSms()
+    {
+        $responseBody = '{
+          "balance": "777",
+          "balance_unformatted": "888"
+        }';
+        $response = new Response(200, [], $responseBody);
+
+        $this->guzzleClient
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn($response);
+
+        $response = $this->sms->fetchBalance();
+
+        $this->assertEquals(
+            json_decode($responseBody),
             $response
         );
     }

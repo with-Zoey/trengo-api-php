@@ -15,10 +15,10 @@ class ResponseFactory
     public static function createFromHttpResponse(ResponseInterface $httpResponse)
     {
         $body = (string)$httpResponse->getBody();
-        $decodedBody = \json_decode($body, true);
+        $decodedBody = \json_decode($body);
 
-        if (isset($decodedBody['error'])) {
-            $errors = implode(', ', $decodedBody['message']);
+        if (isset($decodedBody->error)) {
+            $errors = implode(', ', $decodedBody->message);
             throw new ApiException($errors);
         }
 

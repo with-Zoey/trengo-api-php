@@ -5,6 +5,9 @@ namespace WithZoey\Trengo;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use GuzzleHttp\ClientInterface;
+use WithZoey\Trengo\Resources\Contact;
+use WithZoey\Trengo\Resources\QuickReply;
+use WithZoey\Trengo\Resources\Sms;
 use WithZoey\Trengo\Resources\Ticket;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Exception\GuzzleException;
@@ -27,6 +30,9 @@ class Trengo
     private $apiKey;
 
     public $ticket;
+    public $sms;
+    public $contact;
+    public $quickReply;
 
     /**
      * WeFact constructor.
@@ -43,8 +49,10 @@ class Trengo
         $this->addUserAgentString('Trengo/' . self::CLIENT_VERSION);
         $this->addUserAgentString('PHP/' . phpversion());
 
-        $this->tickets = new Ticket($this);
-
+        $this->ticket = new Ticket($this);
+        $this->quickReply = new QuickReply($this);
+        $this->sms = new Sms($this);
+        $this->contact = new Contact($this);
     }
 
     /**
@@ -61,7 +69,7 @@ class Trengo
     public function getApiUrl(): string
     {
         return sprintf(
-            '%s/%s/',
+            '%s%s/',
             self::API_ENDPOINT,
             self::API_VERSION
         );
@@ -84,14 +92,14 @@ class Trengo
 
         $headers = [
             'Accept'        => 'application/json',
-            'Authorization' => $this->apiKey
+            'Authorization' => 'Bearer ' . $this->apiKey
         ];
 
         $params = [
             'headers' => $headers
         ];
         if (count($body) > 0) {
-            $params['body'] = $body;
+            $params['form_params'] = $body;
         }
 
         $url = $this->getApiUrl() . $url;

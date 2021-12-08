@@ -2,7 +2,6 @@
 
 namespace WithZoey\Trengo\Resources;
 
-use WithZoey\Trengo\Exceptions\ActionNotAvailableException;
 use WithZoey\Trengo\Exceptions\ApiException;
 use WithZoey\Trengo\Exceptions\MissingApiKeyException;
 
@@ -28,7 +27,7 @@ class Ticket extends Resource
     public function list(array $parameters = [])
     {
         $url = $this->getResourceName();
-        $url .= $this->setParameters($parameters, ['users', 'channels', 'labels']);
+        $url .= $this->setParameters($parameters, ['page', 'status', 'contact_id', 'users', 'channels', 'labels']);
         return $this->client->doHttpCall('GET', $url);
     }
 
@@ -42,7 +41,7 @@ class Ticket extends Resource
      */
     public function fetchMessage(int $ticket_id, int $message_id)
     {
-        $url = $this->getResourceName() . "{$ticket_id}/messages/{$message_id}";
+        $url = $this->getResourceName() . "/{$ticket_id}/messages/{$message_id}";
         return $this->client->doHttpCall('GET', $url);
     }
 
@@ -66,41 +65,88 @@ class Ticket extends Resource
         return $this->client->doHttpCall('POST', $url, $body);
     }
 
-
     /**
-     * @param array $parameters
-     * @return mixed|void
-     * @throws ActionNotAvailableException
+     * @param int $ticket_id
+     * @return mixed
+     * @throws ApiException
+     * @throws MissingApiKeyException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function show(array $parameters = [])
+    public function delete(int $ticket_id)
     {
-        throw new ActionNotAvailableException(
-            sprintf('%s is not available for this controller.', __METHOD__)
-        );
-    }
-
-
-    /**
-     * @param array $data
-     * @return mixed|void
-     * @throws ActionNotAvailableException
-     */
-    public function edit(array $data)
-    {
-        throw new ActionNotAvailableException(
-            sprintf('%s is not available for this controller.', __METHOD__)
-        );
+        $url = $this->getResourceName() . "/{$ticket_id}";
+        return $this->client->doHttpCall('DELETE', $url);
     }
 
     /**
-     * @param array $parameters
-     * @return mixed|void
-     * @throws ActionNotAvailableException
+     * @param int $ticket_id
+     * @param string $message
+     * @param bool|null $internal_note
+     * @param string $subject
+     * @param array $attachment_ids
+     * @return mixed
+     * @throws ApiException
+     * @throws MissingApiKeyException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function delete(array $parameters)
+    public function sendTicketMessage(int $ticket_id, string $message, bool $internal_note = null, string $subject = '', array $attachment_ids = [])
     {
-        throw new ActionNotAvailableException(
-            sprintf('%s is not available for this controller.', __METHOD__)
-        );
+        $url = $this->getResourceName() . "/{$ticket_id}/messages";
+        $body = [
+            "message" => $message,
+            "internal_note" => $internal_note,
+            "subject" => $subject,
+            "attachment_ids" => $attachment_ids,
+        ];
+        return $this->client->doHttpCall('POST', $url, $body);
+    }
+
+    /**
+     * @param int $ticket_id
+     * @param string $file
+     * @param string $caption
+     * @return mixed
+     * @throws ApiException
+     * @throws MissingApiKeyException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function sendTicketMediaMessage(int $ticket_id, string $file, string $caption = '')
+    {
+        $url = $this->getResourceName() . "/{$ticket_id}/messages/media";
+        $body = [
+            "caption" => $caption,
+            "file" => $file
+        ];
+        return $this->client->doHttpCall('POST', $url, $body);
+    }
+
+    /**
+     * @param $file
+     * @return mixed
+     * @throws ApiException
+     * @throws MissingApiKeyException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function uploadFile($file)
+    {
+        $url = 'upload/messages/multipart';
+        $body = [
+            "file" => $file
+        ];
+        return $this->client->doHttpCall('POST', $url, $body);
+    }
+
+    /**
+     * @param int $ticket_id
+     * @param int $message_id
+     * @return mixed
+     * @throws ApiException
+     * @throws MissingApiKeyException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function deleteMessage(int $ticket_id, int $message_id)
+    {
+        $url = $this->getResourceName() . "/{$ticket_id}/messages{$message_id}";
+        return $this->client->doHttpCall('DELETE', $url);
     }
 }

@@ -43,7 +43,7 @@ class ApiClientTest extends TestCase
         $response = $this->trengo->doHttpCall('GET', 'url');
 
         $this->assertEquals(
-            ['key' => 'value'],
+            json_decode('{"key":"value"}'),
             $response
         );
     }
@@ -56,7 +56,6 @@ class ApiClientTest extends TestCase
     public function testRaiseMissingApiKeyExceptionWithoutApiKey()
     {
         $this->expectException(MissingApiKeyException::class);
-
         $this->trengo->doHttpCall('GET', 'url');
     }
 }
