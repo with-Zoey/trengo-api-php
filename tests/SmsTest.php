@@ -91,26 +91,24 @@ class SmsTest extends TestCase
         );
     }
 
-    //TODO trengo return 500 error
-//    public function testSendSms()
-//    {
-//        $responseBody = '';
-//        $response = new Response(200, [], $responseBody);
-//
-//        $this->guzzleClient
-//            ->expects($this->once())
-//            ->method('request')
-//            ->willReturn($response);
-//
-//        $response = $this->sms->send(650578, '+31612345678', 'Hello World');
-//
-//        $this->assertEquals(
-//            json_decode($responseBody),
-//            $response
-//        );
-//    }
-
     public function testSendSms()
+    {
+        $response = new Response(200, [], '');
+
+        $this->guzzleClient
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn($response);
+
+        $response = $this->sms->send(655012, '+380957162857', 'Hello World');
+
+        $this->assertEquals(
+            null,
+            $response
+        );
+    }
+
+    public function testFetchBalanceSms()
     {
         $responseBody = '{
           "balance": "777",
