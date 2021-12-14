@@ -100,7 +100,7 @@ class SmsTest extends TestCase
             ->method('request')
             ->willReturn($response);
 
-        $response = $this->sms->send(655012, '+380957162857', 'Hello World');
+        $response = $this->sms->send(655012, '+380951234567', 'Hello World');
 
         $this->assertEquals(
             null,
