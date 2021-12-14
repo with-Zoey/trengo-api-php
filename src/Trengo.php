@@ -12,6 +12,7 @@ use WithZoey\Trengo\Resources\Ticket;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use WithZoey\Trengo\Exceptions\MissingApiKeyException;
+use WithZoey\Trengo\Resources\Whatsapp;
 
 class Trengo
 {
@@ -33,6 +34,7 @@ class Trengo
     public $sms;
     public $contact;
     public $quickReply;
+    public $whatsapp;
 
     /**
      * WeFact constructor.
@@ -53,6 +55,7 @@ class Trengo
         $this->quickReply = new QuickReply($this);
         $this->sms = new Sms($this);
         $this->contact = new Contact($this);
+        $this->whatsapp = new Whatsapp($this);
     }
 
     /**
