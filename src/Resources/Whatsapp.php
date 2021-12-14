@@ -16,7 +16,7 @@ class Whatsapp extends Resource
     }
 
     /**
-     * @param int $ticket_id
+     * @param string $ticket_id
      * @param int $hsm_id
      * @param array $params
      * @return mixed
@@ -24,7 +24,7 @@ class Whatsapp extends Resource
      * @throws \WithZoey\Trengo\Exceptions\ApiException
      * @throws \WithZoey\Trengo\Exceptions\MissingApiKeyException
      */
-    public function startConversation(int $ticket_id, int $hsm_id, array $params = [])
+    public function startConversation(string $ticket_id, int $hsm_id, array $params = [])
     {
         $url = $this->getResourceName();
         $body = [

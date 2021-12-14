@@ -90,7 +90,7 @@ class WhatsappTest extends TestCase
             ->method('request')
             ->willReturn($response);
 
-        $response = $this->whatsapp->startConversation(1, 1);
+        $response = $this->whatsapp->startConversation('123', 1);
 
         $this->assertEquals(
             json_decode($responseBody),
