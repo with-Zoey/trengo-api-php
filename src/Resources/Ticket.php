@@ -130,10 +130,13 @@ class Ticket extends Resource
     public function uploadFile($file)
     {
         $url = 'upload/messages/multipart';
-        $body = [
-            "file" => $file
+        $multipart = [
+            [
+                'name'     => 'file',
+                'contents' => fopen($file, 'r')
+            ]
         ];
-        return $this->client->doHttpCall('POST', $url, $body);
+        return $this->client->doHttpCall('POST', $url, [], $multipart);
     }
 
     /**
