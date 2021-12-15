@@ -79,15 +79,16 @@ class Trengo
     }
 
     /**
-     * @param string $controller
-     * @param string $action
+     * @param string $method
+     * @param string $url
      * @param array $body
+     * @param array $multipart
      * @return mixed
      * @throws Exceptions\ApiException
      * @throws GuzzleException
      * @throws MissingApiKeyException
      */
-    public function doHttpCall(string $method, string $url, array $body = [])
+    public function doHttpCall(string $method, string $url, array $body = [], array $multipart = [])
     {
         if (!$this->apiKey) {
             throw new MissingApiKeyException('Missing API Key.');
@@ -103,6 +104,9 @@ class Trengo
         ];
         if (count($body) > 0) {
             $params['form_params'] = $body;
+        }
+        if (count($multipart) > 0) {
+            $params['multipart'] = $multipart;
         }
 
         $url = $this->getApiUrl() . $url;
