@@ -45,7 +45,8 @@ class Trengo
         $this->httpClient = $httpClient ?
             $httpClient :
             new Client([
-                RequestOptions::TIMEOUT => self::TIMEOUT
+                RequestOptions::TIMEOUT => self::TIMEOUT,
+                'verify' => 'cacert.pem'
             ]);
 
         $this->addUserAgentString('Trengo/' . self::CLIENT_VERSION);
