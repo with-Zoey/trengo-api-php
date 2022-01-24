@@ -18,6 +18,19 @@ class Ticket extends Resource
     }
 
     /**
+     * @param int $ticket_id
+     * @return mixed
+     * @throws ApiException
+     * @throws MissingApiKeyException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function view(int $ticket_id)
+    {
+        $url = $this->getResourceName() . '/' . $ticket_id;
+        return $this->client->doHttpCall('GET', $url);
+    }
+
+    /**
      * @param array $parameters
      * @return mixed
      * @throws ApiException
