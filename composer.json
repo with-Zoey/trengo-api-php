@@ -8,7 +8,7 @@
       "api"
     ],
     "license": "MIT",
-    "homepage": "https://github.com/with-Zoey/wefact-api-php",
+    "homepage": "https://github.com/with-Zoey/trengo-api-php",
     "authors": [
       {
         "name": "Andre Snijder",
@@ -16,7 +16,7 @@
       }
     ],
     "require": {
-      "php": "^7.2 || ^7.3 || ^8.0",
+      "php": "^7.2 || ^7.3 || ^8.0 || ^8.1",
       "guzzlehttp/guzzle": "^6.3 || ^7.0",
       "ext-json": "*"
     },
